@@ -1,13 +1,8 @@
 from datetime import datetime
 import MetaTrader5 as mt5
-from pyti.simple_moving_average import  simple_moving_average as sma
 import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
-from pyti.exponential_moving_average import exponential_moving_average as ema
-from backtesting import Strategy, Backtest
-from backtesting.lib import resample_apply
-from backtesting.lib import crossover
 from Strategies.SMA import  SmaCross
 
 
