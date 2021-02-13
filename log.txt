@@ -3,3 +3,5 @@
 |ERROR|2021-02-06 13:47:17,233|Connection aborted, failed to reconnect
 |ERROR|2021-02-13 08:08:00,663|FXCM Server reports an unknown error: {'executed': False, 'error': ''}.
 |ERROR|2021-02-13 08:08:00,663|Can not parse server answer to json object: {"response":{"executed":false,"error":""},"instrument_id":"1","period_id":"D1","candles":[]}.
+|ERROR|2021-02-13 17:51:42,307|FXCM Server reports an unknown error: {'executed': False, 'error': ''}.
+|ERROR|2021-02-13 17:51:42,308|Can not parse server answer to json object: {"response":{"executed":false,"error":""},"instrument_id":"1","period_id":"D1","candles":[]}.
