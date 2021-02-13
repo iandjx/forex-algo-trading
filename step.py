@@ -1,1 +1,2 @@
-exec("git checkout 907540c")
+import subprocess
+subprocess.call(["git", "checkout", "907540c"])
