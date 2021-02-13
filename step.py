@@ -1,2 +1,10 @@
 import subprocess
-subprocess.call(["git", "checkout", "907540c"])
+import sys
+
+commits = [
+    "asdasd",
+    "asdasdasd"
+]
+
+step = sys.argv[1]
+subprocess.call(["git", "checkout", f"{step}"])
