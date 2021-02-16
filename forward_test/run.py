@@ -1,12 +1,19 @@
 import fxcmpy
 import time
 import datetime as dt
+from pyti.relative_strength_index import relative_strength_index as rsi
 
 
 ###### USER PARAMETERS ######
 token = 'INSERT-TOKEN-HERE'
 symbol = 'GBP/USD'
 timeframe = "m1"                    # (m1,m5,m15,m30,H1,H2,H3,H4,H6,H8,D1,W1,M1)
+rsi_periods = 14
+upper_rsi = 70.0
+lower_rsi = 30.0
+amount = 1
+stop = -20
+limit = None
 #############################
 
 # Global Variables
@@ -29,18 +36,18 @@ def Prepare():
 def StrategyHeartBeat():
     while True:
         currenttime = dt.datetime.now()
-        if timeframe == "m1" and currenttime.second == 0 and getLatestPriceData():
+        if timeframe == "m1" and currenttime.second == 0 and GetLatestPriceData():
             Update()
-        elif timeframe == "m5" and currenttime.second == 0 and currenttime.minute % 5 == 0 and getLatestPriceData():
+        elif timeframe == "m5" and currenttime.second == 0 and currenttime.minute % 5 == 0 and GetLatestPriceData():
             Update()
             time.sleep(240)
-        elif timeframe == "m15" and currenttime.second == 0 and currenttime.minute % 15 == 0 and getLatestPriceData():
+        elif timeframe == "m15" and currenttime.second == 0 and currenttime.minute % 15 == 0 and GetLatestPriceData():
             Update()
             time.sleep(840)
-        elif timeframe == "m30" and currenttime.second == 0 and currenttime.minute % 30 == 0 and getLatestPriceData():
+        elif timeframe == "m30" and currenttime.second == 0 and currenttime.minute % 30 == 0 and GetLatestPriceData():
             Update()
             time.sleep(1740)
-        elif currenttime.second == 0 and currenttime.minute == 0 and getLatestPriceData():
+        elif currenttime.second == 0 and currenttime.minute == 0 and GetLatestPriceData():
             Update()
             time.sleep(3540)
         time.sleep(1)
@@ -75,6 +82,21 @@ def Update():
     print("Close Price: " + str(pricedata['bidclose'][len(pricedata)-1]))
 
     print(str(dt.datetime.now()) + "  " + timeframe + " Update Function Completed.\n")
+
+
+
+# This function places a market order in the direction BuySell, "B" = Buy, "S" = Sell, uses symbol, amount, stop, limit
+def enter(BuySell):
+    direction = True;
+    if BuySell == "S":
+        direction = False;
+    try:
+        opentrade = con.open_trade(symbol=symbol, is_buy=direction,amount=amount, time_in_force='GTC',order_type='AtMarket',is_in_pips=True,limit=limit, stop=stop)
+    except:
+        print("   Error Opening Trade.")
+    else:
+        print("   Trade Opened Successfully.")
+
 
 
 Prepare() # Initialize strategy
