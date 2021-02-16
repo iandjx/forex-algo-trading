@@ -67,3 +67,11 @@ def GetLatestPriceData():
         return True
     else:
         return False
+
+# This function is run every time a candle closes
+def Update():
+    print(str(dt.datetime.now()) + "  " + timeframe + " Bar Closed - Running Update Function...")
+
+    print("Close Price: " + str(pricedata['bidclose'][len(pricedata)-1]))
+
+    print(str(dt.datetime.now()) + "  " + timeframe + " Update Function Completed.\n")
