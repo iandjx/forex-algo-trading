@@ -1,8 +1,5 @@
-from backtesting.backtesting import Backtest
 import fxcmpy
 import datetime as dt
-from back_test.strategies.SMA import SmaCross
-
 
 con = fxcmpy.fxcmpy(config_file='../fxcm.cfg', server='demo')
 
@@ -17,9 +14,3 @@ data.rename(columns={'askopen': 'Open', 'askhigh': 'High',
 print(data)
 
 con.close()
-
-
-bt = Backtest(data, SmaCross, cash=10_000, commission=.002)
-output = bt.run()
-print(bt)
-bt.plot()
