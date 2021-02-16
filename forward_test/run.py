@@ -75,3 +75,7 @@ def Update():
     print("Close Price: " + str(pricedata['bidclose'][len(pricedata)-1]))
 
     print(str(dt.datetime.now()) + "  " + timeframe + " Update Function Completed.\n")
+
+
+Prepare() # Initialize strategy
+StrategyHeartBeat() # Run strategy
