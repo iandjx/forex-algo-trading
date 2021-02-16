@@ -189,7 +189,18 @@ def crossesUnder(stream1, stream2):
                 else:
                     return False
 
-
+# Returns number of Open Positions for symbol in the direction BuySell, returns total number of both Buy and Sell positions if no direction is specified
+def countOpenTrades(BuySell=None):
+    openpositions = con.get_open_positions(kind='list')
+    isbuy = True
+    counter = 0
+    if BuySell == "S":
+        isbuy = False
+    for position in openpositions:
+        if position['currency'] == symbol:
+            if BuySell is None or position['isBuy'] == isbuy:
+                counter+=1
+    return counter
 
 Prepare() # Initialize strategy
 StrategyHeartBeat() # Run strategy
