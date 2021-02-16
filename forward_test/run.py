@@ -44,3 +44,26 @@ def StrategyHeartBeat():
             Update()
             time.sleep(3540)
         time.sleep(1)
+
+# Returns True when pricedata is properly updated
+def GetLatestPriceData():
+    global pricedata
+
+    # Normal operation will update pricedata on first attempt
+    new_pricedata = con.get_candles(symbol, period=timeframe, number=numberofcandles)
+    if new_pricedata.index.values[len(new_pricedata.index.values)-1] != pricedata.index.values[len(pricedata.index.values)-1]:
+        pricedata= new_pricedata
+        return True
+
+    counter = 0
+    # If data is not available on first attempt, try up to 3 times to update pricedata
+    while new_pricedata.index.values[len(new_pricedata.index.values)-1] == pricedata.index.values[len(pricedata.index.values)-1] and counter < 3:
+        print("No updated prices found, trying again in 10 seconds...")
+        counter+=1
+        time.sleep(10)
+        new_pricedata = con.get_candles(symbol, period=timeframe, number=numberofcandles)
+    if new_pricedata.index.values[len(new_pricedata.index.values)-1] != pricedata.index.values[len(pricedata.index.values)-1]:
+        pricedata = new_pricedata
+        return True
+    else:
+        return False
