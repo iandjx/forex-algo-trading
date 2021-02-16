@@ -24,3 +24,23 @@ def Prepare():
     pricedata = con.get_candles(symbol, period=timeframe, number=numberofcandles)
     print(pricedata)
     print("Initial Price Data Received...")
+
+# Get latest close bar prices and run Update() function every close of bar/candle
+def StrategyHeartBeat():
+    while True:
+        currenttime = dt.datetime.now()
+        if timeframe == "m1" and currenttime.second == 0 and getLatestPriceData():
+            Update()
+        elif timeframe == "m5" and currenttime.second == 0 and currenttime.minute % 5 == 0 and getLatestPriceData():
+            Update()
+            time.sleep(240)
+        elif timeframe == "m15" and currenttime.second == 0 and currenttime.minute % 15 == 0 and getLatestPriceData():
+            Update()
+            time.sleep(840)
+        elif timeframe == "m30" and currenttime.second == 0 and currenttime.minute % 30 == 0 and getLatestPriceData():
+            Update()
+            time.sleep(1740)
+        elif currenttime.second == 0 and currenttime.minute == 0 and getLatestPriceData():
+            Update()
+            time.sleep(3540)
+        time.sleep(1)
