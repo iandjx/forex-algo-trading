@@ -77,11 +77,40 @@ def GetLatestPriceData():
 
 # This function is run every time a candle closes
 def Update():
-    print(str(dt.datetime.now()) + "  " + timeframe + " Bar Closed - Running Update Function...")
+    print(str(dt.datetime.now()) + "     " + timeframe + " Bar Closed - Running Update Function...")
 
+    # Calculate Indicators
+    iRSI = rsi(pricedata['bidclose'], rsi_periods)
+
+    # Print Price/Indicators
     print("Close Price: " + str(pricedata['bidclose'][len(pricedata)-1]))
+    print("RSI: " + str(iRSI[len(iRSI)-1]))
 
-    print(str(dt.datetime.now()) + "  " + timeframe + " Update Function Completed.\n")
+    # TRADING LOGIC
+
+    # Entry Logic
+    # If RSI crosses over lower_rsi, Open Buy Trade
+    if crossesOver(iRSI, lower_rsi):
+        print("   BUY SIGNAL!")
+        print("   Opening Buy Trade...")
+        enter("B")
+    # If RSI crosses under upper_rsi, Open Sell Trade
+    if crossesUnder(iRSI, upper_rsi):
+        print("   SELL SIGNAL!")
+        print("   Opening Sell Trade...")
+        enter("S")
+
+    # Exit Logic
+    # If RSI is greater than upper_rsi and we have Buy Trade(s), Close Buy Trade(s)
+    if iRSI[len(iRSI)-1] > upper_rsi and countOpenTrades("B") > 0:
+        print("   RSI above " + str(upper_rsi) + ". Closing Buy Trade(s)...")
+        exit("B")
+    # If RSI is less than than lower_rsi and we have Sell Trade(s), Close Sell Trade(s)
+    if iRSI[len(iRSI)-1] < lower_rsi and countOpenTrades("S") > 0:
+        print("   RSI below " + str(lower_rsi) + ". Closing Sell Trade(s)...")
+        exit("S")
+
+    print(str(dt.datetime.now()) + "     " + timeframe + " Update Function Completed.\n")
 
 
 
