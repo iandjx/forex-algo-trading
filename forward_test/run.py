@@ -97,6 +97,23 @@ def enter(BuySell):
     else:
         print("   Trade Opened Successfully.")
 
+# This function closes all positions that are in the direction BuySell, "B" = Close All Buy Positions, "S" = Close All Sell Positions, uses symbol
+def exit(BuySell=None):
+    openpositions = con.get_open_positions(kind='list')
+    isbuy = True
+    if BuySell == "S":
+        isbuy = False
+    for position in openpositions:
+        if position['currency'] == symbol:
+            if BuySell is None or position['isBuy'] == isbuy:
+                print("   Closing tradeID: " + position['tradeId'])
+                try:
+                    closetrade = con.close_trade(trade_id=position['tradeId'], amount=position['amountK'])
+                except:
+                    print("   Error Closing Trade.")
+                else:
+                    print("   Trade Closed Successfully.")
+
 
 
 Prepare() # Initialize strategy
